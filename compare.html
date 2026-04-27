@@ -21,5 +21,59 @@
 
   <!-- Kanan: Project Actual -->
   <iframe src="Actual/index.html"></iframe>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Plan vs Actual</title>
+  <style>
+    body { margin:0; }
+    #sceneList { list-style:none; display:flex; gap:10px; padding:10px; }
+    #sceneList li { cursor:pointer; background:#eee; padding:5px 10px; }
+    #sceneList li:hover { background:#ccc; }
+    #container { display:flex; height:90vh; }
+    #viewerPlan, #viewerActual { flex:1; }
+  </style>
+</head>
+<body>
+
+  <!-- Scene list navigasi -->
+  <ul id="sceneList">
+    <li onclick="goToView(0)">View 1</li>
+    <li onclick="goToView(1)">View 2</li>
+    <li onclick="goToView(2)">View 3</li>
+  </ul>
+
+  <!-- Dua viewer sejajar -->
+  <div id="container">
+    <div id="viewerPlan"></div>
+    <div id="viewerActual"></div>
+  </div>
+
+  <script src="Plan/data.js"></script>
+  <script src="Actual/data.js"></script>
+  <script src="marzipano.js"></script>
+  <script>
+    // Inisialisasi viewer
+    var viewerPlan = new Marzipano.Viewer(document.getElementById('viewerPlan'));
+    var viewerActual = new Marzipano.Viewer(document.getElementById('viewerActual'));
+
+    // Buat scenes dari data.js Plan dan Actual
+    var scenesPlan = APP_DATA.scenes.map(function(data) {
+      return { scene: viewerPlan.createScene({ /* isi sesuai data.js Plan */ }) };
+    });
+    var scenesActual = APP_DATA.scenes.map(function(data) {
+      return { scene: viewerActual.createScene({ /* isi sesuai data.js Actual */ }) };
+    });
+
+    // Fungsi sinkronisasi
+    function goToView(index) {
+      scenesPlan[index].scene.switchTo();
+      scenesActual[index].scene.switchTo();
+    }
+  </script>
+</body>
+</html>
+
 </body>
 </html>
