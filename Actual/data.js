@@ -1,4 +1,4 @@
-var APP_DATA_ACTUAL = {
+var APP_DATA = {
   "scenes": [
     {
       "id": "0-view-1",
