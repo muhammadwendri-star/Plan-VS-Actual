@@ -22,7 +22,7 @@
   <!-- Kanan: Project Actual -->
   <iframe src="Actual/index.html"></iframe>
 
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
@@ -64,7 +64,7 @@
     var viewerPlan = new Marzipano.Viewer(document.getElementById('viewerPlan'));
     var viewerActual = new Marzipano.Viewer(document.getElementById('viewerActual'));
 
-    // Buat scenes dari data.js Plan
+    // Scenes Plan
     var scenesPlan = APP_DATA.scenes.map(function(data) {
       var source = Marzipano.ImageUrlSource.fromString(
         "Plan/tiles/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
@@ -76,7 +76,7 @@
       return { scene: scene };
     });
 
-    // Buat scenes dari data.js Actual
+    // Scenes Actual
     var scenesActual = APP_DATA.scenes.map(function(data) {
       var source = Marzipano.ImageUrlSource.fromString(
         "Actual/tiles/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
@@ -99,3 +99,4 @@
   </script>
 </body>
 </html>
+
