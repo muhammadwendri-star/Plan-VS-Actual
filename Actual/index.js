@@ -183,13 +183,15 @@
   }
 
   function switchScene(scene) {
-    stopAutorotate();
-    scene.view.setParameters(scene.data.initialViewParameters);
-    scene.scene.switchTo();
-    startAutorotate();
-    updateSceneName(scene);
-    updateSceneList(scene);
-  }
+  stopAutorotate(); // pastikan autorotate berhenti
+  scene.view.setParameters(scene.data.initialViewParameters);
+  scene.scene.switchTo();
+  // startAutorotate(); <-- hapus baris ini supaya tidak auto jalan
+  updateSceneName(scene);
+  updateSceneList(scene);
+}
+
+  
 
   function updateSceneName(scene) {
     sceneNameElement.innerHTML = sanitize(scene.data.name);
