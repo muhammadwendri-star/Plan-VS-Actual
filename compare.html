@@ -4,22 +4,77 @@
   <meta charset="utf-8">
   <title>Plan vs Actual</title>
   <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-    }
-    iframe {
-      flex: 1;
-      border: none;
-    }
+    body { margin:0; font-family:sans-serif; }
+    #sceneList { list-style:none; display:flex; gap:10px; padding:10px; background:#f0f0f0; }
+    #sceneList li { cursor:pointer; background:#ccc; padding:5px 10px; border-radius:4px; }
+    #sceneList li:hover { background:#aaa; }
+    #container { display:flex; height:90vh; }
+    #viewerPlan, #viewerActual { flex:1; }
   </style>
 </head>
 <body>
-  <!-- Kiri: Project Plan -->
-  <iframe src="Plan/index.html"></iframe>
 
-  <!-- Kanan: Project Actual -->
-  <iframe src="Actual/index.html"></iframe>
+  <!-- Navigasi scene -->
+  <ul id="sceneList">
+    <li onclick="goToView(0)">View 1</li>
+    <li onclick="goToView(1)">View 2</li>
+    <li onclick="goToView(2)">View 3</li>
+    <li onclick="goToView(3)">View 4</li>
+    <li onclick="goToView(4)">View 5</li>
+    <li onclick="goToView(5)">View 6</li>
+    <li onclick="goToView(6)">View 7</li>
+  </ul>
+
+  <!-- Dua viewer sejajar -->
+  <div id="container">
+    <div id="viewerPlan"></div>
+    <div id="viewerActual"></div>
+  </div>
+
+  <!-- Script -->
+  <script src="marzipano.js"></script>
+  <script src="Plan/data.js"></script>
+  <script src="Actual/data.js"></script>
+  <script>
+    var viewerPlan = new Marzipano.Viewer(document.getElementById('viewerPlan'));
+    var viewerActual = new Marzipano.Viewer(document.getElementById('viewerActual'));
+
+    // Scenes Plan
+    var scenesPlan = APP_DATA_PLAN.scenes.map(function(data) {
+      var source = Marzipano.ImageUrlSource.fromString(
+        "Plan/tiles/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
+        { cubeMapPreviewUrl: "Plan/tiles/" + data.id + "/preview.jpg" }
+      );
+      var geometry = new Marzipano.CubeGeometry(data.levels);
+      var view = new Marzipano.RectilinearView(data.initialViewParameters);
+      var scene = viewerPlan.createScene({ source: source, geometry: geometry, view: view });
+      return { scene: scene };
+    });
+
+    // Scenes Actual
+    var scenesActual = APP_DATA_ACTUAL.scenes.map(function(data) {
+      var source = Marzipano.ImageUrlSource.fromString(
+        "Actual/tiles/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
+        { cubeMapPreviewUrl: "Actual/tiles/" + data.id + "/preview.jpg" }
+      );
+      var geometry = new Marzipano.CubeGeometry(data.levels);
+      var view = new Marzipano.RectilinearView(data.initialViewParameters);
+      var scene = viewerActual.createScene({ source: source, geometry: geometry, view: view });
+      return { scene: scene };
+    });
+
+    // Fungsi sinkronisasi navigasi
+    function goToView(index) {
+      if (scenesPlan[index] && scenesActual[index]) {
+        scenesPlan[index].scene.switchTo();
+        scenesActual[index].scene.switchTo();
+      } else {
+        console.warn("Scene index " + index + " tidak ada di Plan/Actual");
+      }
+    }
+
+    // Default tampil View 1
+    goToView(0);
+  </script>
 </body>
 </html>
