@@ -77,7 +77,7 @@
     });
 
     // Scenes Actual
-    var scenesActual = APP_DATA.scenes.map(function(data) {
+    var scenesActual = APP_DATA_PLAN.scenes.map(function(data) {
       var source = Marzipano.ImageUrlSource.fromString(
         "Actual/tiles/" + data.id + "/{z}/{f}/{y}/{x}.jpg",
         { cubeMapPreviewUrl: "Actual/tiles/" + data.id + "/preview.jpg" }
