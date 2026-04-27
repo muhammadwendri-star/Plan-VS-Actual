@@ -36,7 +36,6 @@
   <script src="Plan/data.js"></script>
   <script src="Actual/data.js"></script>
   <script>
-    // Viewer Plan & Actual
     var viewerPlan = new Marzipano.Viewer(document.getElementById('viewerPlan'));
     var viewerActual = new Marzipano.Viewer(document.getElementById('viewerActual'));
 
@@ -69,6 +68,8 @@
       if (scenesPlan[index] && scenesActual[index]) {
         scenesPlan[index].scene.switchTo();
         scenesActual[index].scene.switchTo();
+      } else {
+        console.warn("Scene index " + index + " tidak ada di Plan/Actual");
       }
     }
 
